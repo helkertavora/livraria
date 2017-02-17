@@ -1,0 +1,42 @@
+@CHARSET "ISO-8859-1";
+#btn-sair{
+	margin-top: 7px;
+}
+.menu{
+	margin-top: 18px;
+}
+.tab{
+	margin-top: 9px;	
+}
+#excluirConsumo{
+	margin-top: -23px;
+    margin-right: 4px;
+}
+#cabecalho {
+	text-align: center; 
+	background: #000000;
+	color: #FFFFFF;
+	
+}
+ table {
+ 	margin-top: 50px;
+ } 
+ tbody {
+	text-align: center; 
+ }
+ 
+ #loginn {
+ 	width: 400px;
+ 	margin-left: auto;
+ 	margin-right: auto;
+ 	margin-top: 100px;
+ }
+ #btn-login {
+ 	width: 100%;
+ }
+  
+ #btn-buscar {
+     
+     margin-top: 25px
+     
+ }
