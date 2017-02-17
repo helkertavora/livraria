@@ -1,5 +1,7 @@
 package br.com.padrao.models;
 
+import java.security.NoSuchAlgorithmException;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -8,6 +10,9 @@ import javax.persistence.Id;
 import javax.validation.constraints.Size;
 
 import org.hibernate.validator.constraints.NotEmpty;
+
+import br.com.padrao.criptografia.Criptografia;
+import br.com.padrao.criptografia.CriptografiaMD5;
 
 @Entity
 public class Usuario {
@@ -25,7 +30,7 @@ public class Usuario {
 	private String login;
 	
 	@NotEmpty
-	@Size(min=0, max=20)
+	@Size(min=0, max=60)
 	private String senha;
 	
 	private boolean admin;
@@ -59,7 +64,12 @@ public class Usuario {
 	}
 
 	public void setSenha(String senha) {
-		this.senha = senha;
+		Criptografia criptografia = new CriptografiaMD5();
+		try {
+			this.senha = criptografia.encrypt(senha);
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		}
 	}
 
 	public boolean isAdmin() {
@@ -68,6 +78,10 @@ public class Usuario {
 
 	public void setAdmin(boolean admin) {
 		this.admin = admin;
+	}
+	
+	public boolean autenticaUsuario(String senha){
+		return getSenha().equals(senha);
 	}
 
 	@Override

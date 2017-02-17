@@ -1,5 +1,7 @@
 package br.com.padrao.controllers;
 
+import java.security.NoSuchAlgorithmException;
+
 import javax.inject.Inject;
 
 import br.com.caelum.vraptor.Controller;
@@ -9,6 +11,8 @@ import br.com.caelum.vraptor.Post;
 import br.com.caelum.vraptor.Result;
 import br.com.caelum.vraptor.validator.I18nMessage;
 import br.com.caelum.vraptor.validator.Validator;
+import br.com.padrao.criptografia.Criptografia;
+import br.com.padrao.criptografia.CriptografiaMD5;
 import br.com.padrao.daos.implementacao.RegistroDeUsuarios;
 import br.com.padrao.models.Usuario;
 import br.com.padrao.validacoes.UsuarioLogado;
@@ -32,7 +36,7 @@ public class LoginController {
 	@Post("/autentica")
 	public void login(String login, String senha) {
 		
-		Usuario usuario = usuarios.comLoginESenha(login, senha);
+		Usuario usuario = usuarios.comLoginESenha(login, descriptografaSenha(senha));
 		if (usuario == null) {
 			validator.add(new I18nMessage("usuario não encontrado", "login.ou.senha.invalidos"));
 		}
@@ -49,4 +53,14 @@ public class LoginController {
 		result.include("notice", "você está deslogado do sistema!");
 		result.redirectTo(this).formulario();
 	 }
+	
+	public String descriptografaSenha(String senha) {
+		Criptografia criptografia = new CriptografiaMD5();
+		try {
+			senha = criptografia.encrypt(senha);
+		} catch (NoSuchAlgorithmException e) {
+			e.printStackTrace();
+		}
+		return senha;
+	}
 }
